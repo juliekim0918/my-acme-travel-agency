@@ -204,15 +204,11 @@ const seed = async () => {
     }),
   ]);
 
-  // await p1.setCities([c2, c3, c4, c8, c10]);
-  // await p2.setCities([c5, c6, c12]);
-  // await p3.setCities([c1, c14, c7, c8, c9, c10, c12, c12]);
-  // await p4.setCities([c2, c4, c7, c11]);
-  // await p5.setCities([c13, c14, c11, c1, c2]);
-
   const allTrips = await Trip.findAll();
   allTrips.forEach(async (trip, idx) => {
-    await trip.update({ date: faker.date.future() });
+    idx % 4 === 0
+      ? await trip.update({ date: faker.date.past() })
+      : await trip.update({ date: faker.date.future() });
     idx % 3 === 0 ? await trip.update({ purpose: "business" }) : "";
   });
 };

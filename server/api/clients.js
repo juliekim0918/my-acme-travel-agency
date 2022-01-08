@@ -13,4 +13,18 @@ app.get("/", async (req, res, next) => {
   }
 });
 
+app.get("/:id", async (req, res, next) => {
+  try {
+    const client = await Client.findOne({
+      include: [{ model: City, as: "base" }],
+      where: {
+        id: req.params.id,
+      },
+    });
+    res.send(client);
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = app;

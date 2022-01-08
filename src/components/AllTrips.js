@@ -16,15 +16,15 @@ class AllTrips extends Component {
   render() {
     const { trips } = this.props;
     return (
-      <div className="rounded-md  p-5">
+      <div className="rounded-md p-5">
         {trips.map((trip) => {
           return (
             <div
               key={trip.id}
               className="rounded-md my-5 first:mt-0 bg-cyan-800 grid grid-cols-3 h-48 relative"
             >
-              <div className="rounded-full w-3 h-3 bg-zinc-200 absolute -top-1.5 right-1/3"></div>
-              <div className="rounded-full w-3 h-3 bg-zinc-200 absolute -bottom-1.5 right-1/3"></div>
+              <div className="rounded-full w-3 h-3 bg-white absolute -top-1.5 right-1/3"></div>
+              <div className="rounded-full w-3 h-3 bg-white absolute -bottom-1.5 right-1/3"></div>
               <div className="col-span-2 border-r-2 border-dotted mr-1 p-4">
                 <div className="text-2xl font-medium text-white">
                   {trip.client.name}

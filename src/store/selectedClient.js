@@ -1,17 +1,27 @@
+import axios from "axios";
+import { changeSelectedTrips } from "./selectedTrips";
+
 const CHANGE_SELECTED_CLIENT = "CHANGE_SELECTED_CLIENT";
 
-export const changeSelectedClient = (id) => {
+const _changeSelectedClient = (client) => {
   return {
     type: CHANGE_SELECTED_CLIENT,
-    id,
+    client,
   };
 };
 
-export default (state = 0, action) => {
+export const changeSelectedClient = (id) => {
+  return async (dispatch) => {
+    const { data: client } = await axios.get(`/api/clients/${id}`);
+    dispatch(_changeSelectedClient(client));
+    dispatch(changeSelectedTrips(id));
+  };
+};
+
+export default (state = {}, action) => {
   switch (action.type) {
     case CHANGE_SELECTED_CLIENT:
-      return action.id;
-
+      return action.client;
     default:
       return state;
   }
