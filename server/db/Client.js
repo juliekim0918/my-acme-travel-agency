@@ -11,6 +11,9 @@ const Client = db.define("client", {
     type: STRING,
     allowNull: false,
   },
+  avatarUrl: {
+    type: STRING,
+  },
 });
 
 module.exports = Client;
