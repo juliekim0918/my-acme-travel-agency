@@ -4,13 +4,11 @@ import { MapPin, Trash } from "react-feather";
 import format from "date-fns/format";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import isPast from "date-fns/isPast";
+import { deleteTrip } from "../store/trips";
 
-const SelectedTrip = ({ trip, selectedClient }) => {
+const SelectedTrip = ({ trip, selectedClient, deleteTrip }) => {
   return (
-    <div
-      key={trip.id}
-      className="rounded-md my-5 first:mt-0 bg-cyan-800 grid grid-cols-3 h-48 relative"
-    >
+    <div className="rounded-md my-5 first:mt-0 bg-cyan-800 grid grid-cols-3 h-48 relative">
       <div className="rounded-full w-3 h-3 bg-white absolute -top-1.5 right-1/3"></div>
       <div className="rounded-full w-3 h-3 bg-white absolute -bottom-1.5 right-1/3"></div>
       <div className="col-span-2 border-r-2 border-dotted mr-1 p-4">
@@ -43,7 +41,7 @@ const SelectedTrip = ({ trip, selectedClient }) => {
               Delay by a week
             </button>{" "}
             <div className="absolute bottom-3 right-3 text-white">
-              <button>
+              <button onClick={() => deleteTrip(trip.id * 1)}>
                 <Trash />
               </button>
             </div>
@@ -59,5 +57,12 @@ const SelectedTrip = ({ trip, selectedClient }) => {
 const mapStateToProps = ({ selectedClient }) => {
   return { selectedClient };
 };
+const mapDispatchToProps = (dispatch) => {
+  return {
+    deleteTrip: (id) => {
+      dispatch(deleteTrip(id));
+    },
+  };
+};
 
-export default connect(mapStateToProps)(SelectedTrip);
+export default connect(mapStateToProps, mapDispatchToProps)(SelectedTrip);

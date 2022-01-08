@@ -24,7 +24,10 @@ app.get("/", async (req, res, next) => {
 
 app.delete("/:id", async (req, res, next) => {
   try {
-    const tripToDelete = await Trip.findByPk(req.params.id);
+    const tripToDelete = await Trip.findOne({
+      where: { id: req.params.id },
+    });
+    console.log(tripToDelete);
     await tripToDelete.destroy();
     res.sendStatus(204);
   } catch (error) {

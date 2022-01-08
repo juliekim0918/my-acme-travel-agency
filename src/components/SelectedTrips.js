@@ -3,14 +3,21 @@ import { connect } from "react-redux";
 import SelectedClient from "./SelectedClient";
 import isPast from "date-fns/isPast";
 import SelectedTrip from "./SelectedTrip";
+import { getAllTrips } from "../store/trips";
+import { changeSelectedTrips } from "../store/selectedTrips";
 
 class SelectedTrips extends Component {
   constructor() {
     super();
   }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.trips.length !== this.props.trips.length) {
+      this.props.changeSelectedTrips(this.props.selectedClient.id);
+    }
+  }
 
   render() {
-    const { selectedClient, selectedTrips } = this.props;
+    const { selectedTrips } = this.props;
     return (
       <div>
         <SelectedClient />
@@ -22,7 +29,7 @@ class SelectedTrips extends Component {
             {selectedTrips
               .filter((trip) => !isPast(new Date(trip.date)))
               .map((trip) => {
-                return <SelectedTrip trip={trip} />;
+                return <SelectedTrip key={trip.id} trip={trip} />;
               })}
           </div>
         </div>
@@ -35,7 +42,7 @@ class SelectedTrips extends Component {
             {selectedTrips
               .filter((trip) => isPast(new Date(trip.date)))
               .map((trip) => {
-                return <SelectedTrip trip={trip} />;
+                return <SelectedTrip key={trip.id} trip={trip} />;
               })}
           </div>
         </div>
@@ -44,8 +51,19 @@ class SelectedTrips extends Component {
   }
 }
 
-const mapStateToProps = ({ selectedClient, selectedTrips }) => {
-  return { selectedClient, selectedTrips };
+const mapStateToProps = ({ trips, selectedClient, selectedTrips }) => {
+  return { trips, selectedClient, selectedTrips };
 };
 
-export default connect(mapStateToProps)(SelectedTrips);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getTrips: () => {
+      dispatch(getAllTrips());
+    },
+    changeSelectedTrips: (id) => {
+      dispatch(changeSelectedTrips(id));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SelectedTrips);
